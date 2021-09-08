@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-class HomePage extends StatelessWidget {
+class Accnt extends StatelessWidget {
   int _selectedIndex = 0;
 
   List _pages=[0,1,2];

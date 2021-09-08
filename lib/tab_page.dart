@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'Account.dart';
-import 'HomePage.dart';
-import 'Search.dart';
+import 'Report.dart';
+import 'Accnt.dart';
+import 'Bill.dart';
 
 
 class TabPage extends StatefulWidget {
@@ -22,9 +22,9 @@ class _TabPageState extends State<TabPage> {
   void initState() {
     super.initState();
     _pages = [
-      HomePage(),
-      Search(),
-      Account()
+      Accnt(),
+      Bill(),
+      Report()
     ];
   }
 

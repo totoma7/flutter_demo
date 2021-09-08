@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'main.dart';
 
-class Account extends StatelessWidget {
+class Bill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber[100],
+      backgroundColor: Colors.teal[100],
       appBar: AppBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.teal,
+
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
@@ -19,16 +20,11 @@ class Account extends StatelessWidget {
             },
           )
         ],
-        title: Text('보고서',style: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.bold
-        ),),
+        title: Text('지출 결의'),
 
       ),
-
       body: Center(
-        child: Text('보고서'),
+        child: Text('지출결의'),
       ),
     );
   }

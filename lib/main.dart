@@ -34,7 +34,7 @@ class Main extends StatelessWidget {
               height: 90.0,
               child: const DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.deepOrangeAccent,
                 ),
                 child: Text('Drawer Header'),
               ),
@@ -47,7 +47,7 @@ class Main extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('처리 목록'),
+              title: const Text('처리 목asdfas록'),
               onTap: () {
                 // Update the state of the app.
                 // ...

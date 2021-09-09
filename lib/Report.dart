@@ -52,7 +52,7 @@ class Report extends StatelessWidget {
           Center(
               child: Text(
                 '결재 진행 금액 차트',
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
               )),
           Center(
             child: Text(

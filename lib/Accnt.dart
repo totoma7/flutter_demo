@@ -13,7 +13,7 @@ class Accnt extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.cyan[100],
       appBar: AppBar(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Colors.red,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),

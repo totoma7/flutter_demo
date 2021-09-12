@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -27,7 +28,6 @@ class Accnt extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   final String title;
-
   MyHomePage({required this.title});
 
 
@@ -43,6 +43,9 @@ enum AppState {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+
   late AppState state;
   File? imageFile;
   late Uint8List _data;
@@ -187,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
     if (croppedFile != null) {
       imageFile = croppedFile;
-      _saveImage(imageFile!.readAsBytesSync(),"data4.png");
+      _saveImage(imageFile!.readAsBytesSync(),"data"+getRandomString(5)+".png");
       setState(() {
         state = AppState.cropped;
       });
@@ -200,4 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
       state = AppState.free;
     });
   }
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
 }

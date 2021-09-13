@@ -11,7 +11,7 @@ import 'package:image_cropper/image_cropper.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:image_save/image_save.dart';
-
+import 'package:http/http.dart' as http;
 
 class Accnt extends StatelessWidget {
   @override
@@ -45,6 +45,10 @@ enum AppState {
 class _MyHomePageState extends State<MyHomePage> {
   String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
+  final String uploadUrl = 'http://10.0.2.2/test/upload';
+  // final String uploadUrl = 'http://localhost/test/upload';
+  final myController = TextEditingController();
+  String _password ='';
 
   late AppState state;
   File? imageFile;
@@ -69,6 +73,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<String?> uploadImage(filepath, url,password) async {
+    print('filepath '+filepath);
+    print('url '+url);
+    print('password '+password);
+    print('uploadImage');
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    request.fields['userid'] = 'password';
+    request.files.add(await http.MultipartFile.fromPath('image', filepath));
+    var res = await request.send();
+    return res.reasonPhrase;
+  }
 
 
   @override
@@ -77,9 +92,32 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body:  Center(
-        child: imageFile != null ? Image.file(imageFile!) : Container(),
-      ),
+      body:  Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            imageFile != null ?
+            Image.file(imageFile!,width: 100,height: 100,):Container(),
+            SizedBox(
+              height: 20,
+            ),
+            // new TextFormField(
+            //     obscureText: false,
+            //     decoration: new InputDecoration(labelText: '금액'),
+            //     onSaved: (value) => _password = value!,
+            //     controller: myController,
+            //     keyboardType: TextInputType.number,
+            //     inputFormatters: [FilteringTextInputFormatter.digitsOnly]
+            // ),
+            imageFile != null ? RaisedButton(
+              onPressed: () async {
+                 print('금액  '+_password);
+                var res = await uploadImage(imageFile!.path, uploadUrl,'myController.text');
+                print(res);
+              },
+              child: const Text('Upload'),
+            ) : Container(),
+          ],
+          ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

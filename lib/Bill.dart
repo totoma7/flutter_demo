@@ -75,12 +75,17 @@ class _HomeScreenState  extends State<Bill>{
       appBar: AppBar(
         title: Text('지출 내역'),
         actions: <Widget>[
-          IconButton(onPressed: (){
-            _fetchData();
-          }, icon:
-          Icon(Icons.plus_one),
-          tooltip: '더가져오기',)
-          ,Text('더하기')
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(onPressed: (){
+                _fetchData();
+              }, icon:
+              Icon(Icons.add),
+              tooltip: '더가져오기',
+              iconSize: 30,),
+            ],
+          )
         ],
       ),
       body: ListView.builder(
@@ -91,7 +96,7 @@ class _HomeScreenState  extends State<Bill>{
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children:  <Widget>[
-                      Image.memory(base64Decode(picture.filebyte),width: 200,height: 200,),
+                      Image.memory(base64Decode(picture.filebyte),width: 150,height: 150,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

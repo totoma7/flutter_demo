@@ -17,10 +17,10 @@ class Accnt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ImageCropper',
-      theme: ThemeData.light().copyWith(primaryColor: Colors.deepOrange),
+      title: '영수증 추가',
+      theme: ThemeData.light().copyWith(primaryColor: Colors.cyan),
       home: MyHomePage(
-        title: 'ImageCropper',
+        title: '영수증 추가',
       ),
     );
   }

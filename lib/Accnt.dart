@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:flutter_layout/MyCustomForm.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -45,7 +46,7 @@ enum AppState {
 class _MyHomePageState extends State<MyHomePage> {
   String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
-  final String uploadUrl = 'http://10.0.2.2/test/upload';
+  final String uploadUrl = 'http://10.0.2.2:18080/test/upload';
   // final String uploadUrl = 'http://localhost/test/upload';
   final myController = TextEditingController();
   String _password ='';
@@ -92,29 +93,21 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body:  Row(
+      body:  Column(
         mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             imageFile != null ?
-            Image.file(imageFile!,width: 100,height: 100,):Container(),
+            Image.file(imageFile!,width: 200,height: 200,):Container(),
             SizedBox(
-              height: 20,
+              height: 2,
             ),
-            // new TextFormField(
-            //     obscureText: false,
-            //     decoration: new InputDecoration(labelText: '금액'),
-            //     onSaved: (value) => _password = value!,
-            //     controller: myController,
-            //     keyboardType: TextInputType.number,
-            //     inputFormatters: [FilteringTextInputFormatter.digitsOnly]
-            // ),
             imageFile != null ? RaisedButton(
               onPressed: () async {
                  print('금액  '+_password);
                 var res = await uploadImage(imageFile!.path, uploadUrl,'myController.text');
                 print(res);
               },
-              child: const Text('Upload'),
+              child: const Text('저장'),
             ) : Container(),
           ],
           ),

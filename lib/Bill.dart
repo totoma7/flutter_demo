@@ -33,12 +33,18 @@ class _HomeScreenState  extends State<Bill>{
   List _data = [];
   int page =1;
   int limit = 20;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
   // String tokenString ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NzJmNzc3Mi0wN2Q4LTRhMGMtODQ5NC05NTMyYWRiZGIxMTIiLCJleHAiOjE2MzE3MDY0NjV9.A7-1CZX_M1bNUhgtM2S4rcBrqCXufwz1O9uLGkqkw1Uabueoqvn4aVzs26KKcgqOhKMHTu3s9k_GnHVJeZZa6g";
   _fetchData() async {
     print('test');
 
     final response = await http.get(
-      Uri.parse('http://10.0.2.2/test/data'),
+      Uri.parse('http://10.0.2.2:18080/test/data'),
       // Send authorization headers to the backend.
 
     );
@@ -96,7 +102,7 @@ class _HomeScreenState  extends State<Bill>{
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children:  <Widget>[
-                      Image.memory(base64Decode(picture.filebyte),width: 150,height: 150,),
+                      Image.memory(base64Decode(picture.filebyte),width: 130,height: 130,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

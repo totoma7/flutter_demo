@@ -329,7 +329,7 @@ class _MyHomePageState extends State<Accnt> {
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   void showAlertDialog(BuildContext context) async {
-    String result = await showDialog(
+    await showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {

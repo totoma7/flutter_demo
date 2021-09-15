@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:E_AC/Bill.dart';
+import 'package:E_AC/image_cropper.dart';
 import 'package:E_AC/main.dart';
 import 'package:E_AC/tab_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,8 +12,6 @@ import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 // import 'package:flutter_layout/MyCustomForm.dart';
-import 'package:image_cropper/image_cropper.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:image_save/image_save.dart';
 import 'package:http/http.dart' as http;
@@ -108,9 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.black,
             onPressed: () {
               // 로그아웃
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                   builder: (BuildContext context) => MyApp()), (
                   route) => false);
+
             },
           ),
         ],
@@ -261,13 +261,13 @@ class _MyHomePageState extends State<MyHomePage> {
         CropAspectRatioPreset.ratio16x9
         ],
         androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
+            toolbarTitle: '자르기',
+            toolbarColor: Colors.indigo,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         iosUiSettings: IOSUiSettings(
-          title: 'Cropper',
+          title: '자르기',
         ));
     if (croppedFile != null) {
       imageFile = croppedFile;

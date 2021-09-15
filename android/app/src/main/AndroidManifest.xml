@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:label="flutter_layout"
+        android:label="비용증빙"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

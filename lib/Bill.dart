@@ -44,17 +44,18 @@ class _HomeScreenState  extends State<Bill>{
     print('test');
 
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:18080/test/data'),
+      Uri.parse('http://222.108.225.7:18080/test/data'),
       // Send authorization headers to the backend.
 
     );
 
     print('success');
     if(response.statusCode == 200){
-      String jsonString = response.body;
-      print(jsonString);
+      // String jsonString = response.body;
+      var responseBody = utf8.decode(response.bodyBytes);
+      print(responseBody);
 
-      List pictures = jsonDecode(jsonString);
+      List pictures = jsonDecode(responseBody);
 
       for(int i =0;i<pictures.length;i++){
         var picture = pictures[i];
@@ -102,7 +103,37 @@ class _HomeScreenState  extends State<Bill>{
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children:  <Widget>[
-                      Image.memory(base64Decode(picture.filebyte),width: 130,height: 130,),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white, // background
+                          onPrimary: Colors.white, // foreground
+                        ),
+                        child: Image.memory(base64Decode(picture.filebyte),width: 130,height: 130,),
+                       onPressed:(){
+                         showDialog(
+                         context: context,
+                         builder: (BuildContext context){
+                          return AlertDialog(
+                            contentPadding:  EdgeInsets.all(10.0),
+                            titlePadding:  EdgeInsets.all(0.0),
+                            buttonPadding: EdgeInsets.all(0.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)
+                            ),
+                           content: Image.memory(base64Decode(picture.filebyte),width: 400,height: 400,),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Text("Close"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                         },
+                         );
+                        },
+                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

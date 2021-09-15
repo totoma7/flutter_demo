@@ -6,18 +6,15 @@ import 'Bill.dart';
 
 
 class TabPage extends StatefulWidget {
-
   TabPage();
-
   @override
   _TabPageState createState() => _TabPageState();
 }
 
-class _TabPageState extends State<TabPage> {
+class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
-
   List _pages=[0,1,2];
-
+  _TabPageState();
   @override
   void initState() {
     super.initState();

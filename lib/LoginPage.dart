@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   late String _password;
   bool _isVisible = true;
   bool _flag = true;
+
+  get bottomNavigationBar => null;
   void validateAndSave() {
     final form = formKey.currentState;
     if (form!.validate()) {
@@ -125,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
+        bottomNavigationBar:bottomNavigationBar,
     );
   }
 }

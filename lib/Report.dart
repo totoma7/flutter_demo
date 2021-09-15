@@ -1,3 +1,4 @@
+import 'package:E_AC/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -22,7 +23,7 @@ class Report extends StatelessWidget {
                 onPressed: () {
                   // 로그아웃
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                      builder: (BuildContext context) => MyApp()), (
+                      builder: (BuildContext context) => LoginPage()), (
                       route) => false);
                 },
               ),

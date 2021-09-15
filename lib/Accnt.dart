@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:E_AC/Bill.dart';
+import 'package:E_AC/LoginPage.dart';
 import 'package:E_AC/image_cropper.dart';
 import 'package:E_AC/main.dart';
 import 'package:E_AC/tab_page.dart';
@@ -18,23 +19,20 @@ import 'package:http/http.dart' as http;
 
 
 
-class Accnt extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '영수증 추가',
-      theme: ThemeData.light().copyWith(primaryColor: Colors.cyan),
-      home: MyHomePage(
-        title: '영수증 추가',
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  final String title;
-  MyHomePage({required this.title});
-
+// class Accnt extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: '영수증 추가',
+//       theme: ThemeData.light().copyWith(primaryColor: Colors.cyan),
+//       home: MyHomePage(
+//         title: '영수증 추가',
+//       ),
+//     );
+//   }
+// }
+//
+class Accnt extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -47,7 +45,7 @@ enum AppState {
 
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<Accnt> {
   String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
   final String uploadUrl = 'http://222.108.225.7:18080/test/upload';
@@ -100,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('영수증 추가'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
@@ -108,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {
               // 로그아웃
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                  builder: (BuildContext context) => MyApp()), (
+                  builder: (BuildContext context) => LoginPage()), (
                   route) => false);
 
             },

@@ -12,12 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+
 // import 'package:flutter_layout/MyCustomForm.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_save/image_save.dart';
 import 'package:http/http.dart' as http;
-
-
 
 // class Accnt extends StatelessWidget {
 //   @override
@@ -33,7 +32,6 @@ import 'package:http/http.dart' as http;
 // }
 //
 class Accnt extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -42,11 +40,11 @@ enum AppState {
   free,
   picked,
   cropped,
-
 }
 
 class _MyHomePageState extends State<Accnt> {
-  String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  String _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
   final String uploadUrl = 'http://222.108.225.7:18080/test/upload';
 
@@ -69,8 +67,8 @@ class _MyHomePageState extends State<Accnt> {
   Future<void> _saveImage(Uint8List data, String filename) async {
     bool success = false;
     try {
-      success = (await ImageSave.saveImage(
-          data, filename, albumName: "demo", overwriteSameNameFile: true))!;
+      success = (await ImageSave.saveImage(data, filename,
+          albumName: "demo", overwriteSameNameFile: true))!;
     } on PlatformException catch (e, s) {
       print(e);
       print(s);
@@ -93,7 +91,6 @@ class _MyHomePageState extends State<Accnt> {
     return res.statusCode;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,10 +102,11 @@ class _MyHomePageState extends State<Accnt> {
             color: Colors.black,
             onPressed: () {
               // 로그아웃
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                  builder: (BuildContext context) => LoginPage()), (
-                  route) => false);
-
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => LoginPage()),
+                  (route) => false);
             },
           ),
         ],
@@ -116,8 +114,45 @@ class _MyHomePageState extends State<Accnt> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          imageFile != null ?
-          Image.file(imageFile!, width: 400, height: 400,) : Container(),
+          imageFile != null
+              ? ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white, // background
+                onPrimary: Colors.white, // foreground
+              ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          contentPadding: EdgeInsets.all(0.0),
+                          titlePadding: EdgeInsets.all(0.0),
+                          buttonPadding: EdgeInsets.all(0.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          content: Image.file(
+                            imageFile!,
+                            width: 400,
+                            height: 400,
+                          ),
+                          actions: <Widget>[
+                            new FlatButton(
+                              child: new Text("Close"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Image.file(
+                    imageFile!,
+                    width: 250,
+                    height: 250,
+                  ))
+              : Container(),
           Container(
             child: Center(
               child: SizedBox(
@@ -125,28 +160,33 @@ class _MyHomePageState extends State<Accnt> {
               ),
             ),
           ),
-          imageFile != null ? ElevatedButton(
-            onPressed: () async {
-              print('금액  ' + _password);
-              var res = await uploadImage(
-                  imageFile!.path, uploadUrl, 'myController.text');
-              print('res:' + res.toString());
-              if (res == 201) {
-                showAlertDialog(context);
-                //_clearImage();
-              }
-              // setState(() {
-              //   state = AppState.free;
-              //   _isVisibleCamera = true;
-              //   _isVisiblePick = true;
-              // });
-            },
-            child: Text('저장', style: new TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),),
-          ) : Container(),
+          imageFile != null
+              ? ElevatedButton(
+                  onPressed: () async {
+                    print('금액  ' + _password);
+                    var res = await uploadImage(
+                        imageFile!.path, uploadUrl, 'myController.text');
+                    print('res:' + res.toString());
+                    if (res == 201) {
+                      showAlertDialog(context);
+                      //_clearImage();
+                    }
+                    // setState(() {
+                    //   state = AppState.free;
+                    //   _isVisibleCamera = true;
+                    //   _isVisiblePick = true;
+                    // });
+                  },
+                  child: Text(
+                    '저장',
+                    style: new TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
       floatingActionButton: Row(
@@ -161,16 +201,16 @@ class _MyHomePageState extends State<Accnt> {
                   _pickImage();
                 else if (state == AppState.picked)
                   _cropImage();
-                else if (state == AppState.cropped)
-                  _clearImage();
+                else if (state == AppState.cropped) _clearImage();
               },
               child: _buildButtonIcon(),
-            ),),
-
-          SizedBox(width: 20,),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
           Visibility(
             visible: _isVisibleCamera,
-
             child: FloatingActionButton(
               backgroundColor: Colors.deepOrange,
               onPressed: () {
@@ -178,12 +218,11 @@ class _MyHomePageState extends State<Accnt> {
                   _cameraImage();
                 else if (state == AppState.picked)
                   _cropImage();
-                else if (state == AppState.cropped)
-                  _clearImage();
+                else if (state == AppState.cropped) _clearImage();
               },
               child: _buildcameraButtonIcon(),
-            ),)
-
+            ),
+          )
         ],
       ),
     );
@@ -213,7 +252,7 @@ class _MyHomePageState extends State<Accnt> {
 
   Future<Null> _pickImage() async {
     final pickedImage =
-    await ImagePicker().getImage(source: ImageSource.gallery);
+        await ImagePicker().getImage(source: ImageSource.gallery);
     imageFile = pickedImage != null ? File(pickedImage.path) : null;
     if (imageFile != null) {
       setState(() {
@@ -226,7 +265,7 @@ class _MyHomePageState extends State<Accnt> {
 
   Future<Null> _cameraImage() async {
     final pickedImage =
-    await ImagePicker().getImage(source: ImageSource.camera);
+        await ImagePicker().getImage(source: ImageSource.camera);
     imageFile = pickedImage != null ? File(pickedImage.path) : null;
     if (imageFile != null) {
       setState(() {
@@ -241,23 +280,23 @@ class _MyHomePageState extends State<Accnt> {
     File? croppedFile = await ImageCropper.cropImage(
         sourcePath: imageFile!.path,
         aspectRatioPresets: Platform.isAndroid
-        ? [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-        ]
-        : [
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio5x3,
-        CropAspectRatioPreset.ratio5x4,
-        CropAspectRatioPreset.ratio7x5,
-        CropAspectRatioPreset.ratio16x9
-        ],
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: '자르기',
             toolbarColor: Colors.indigo,
@@ -286,9 +325,8 @@ class _MyHomePageState extends State<Accnt> {
     });
   }
 
-  String getRandomString(int length) =>
-      String.fromCharCodes(Iterable.generate(
-          length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   void showAlertDialog(BuildContext context) async {
     String result = await showDialog(

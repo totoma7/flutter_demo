@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: new AppBar(
-        title: new Text('e-Accounting',
+        title: new Text('비용 증빙',
           style: TextStyle(
             color: Colors.white
           ),),

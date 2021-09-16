@@ -229,9 +229,9 @@ class _MyHomePageState extends State<Accnt> {
   }
 
   Widget _buildButtonIcon() {
-    if (state == AppState.free)
+    if (state == AppState.free) {
       return Icon(Icons.photo_album);
-    else if (state == AppState.picked)
+    } else if (state == AppState.picked)
       return Icon(Icons.crop);
     else if (state == AppState.cropped)
       return Icon(Icons.clear);

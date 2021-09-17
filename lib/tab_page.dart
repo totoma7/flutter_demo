@@ -13,15 +13,15 @@ class TabPage extends StatefulWidget {
 
 class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
-  List _pages=[0,1,2];
+  List _pages=[0,1];
   _TabPageState();
   @override
   void initState() {
     super.initState();
     _pages = [
-      Accnt(),
       Bill(),
-      Report()
+      Accnt(),
+      // Report()
     ];
   }
 
@@ -30,16 +30,18 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.indigo[400],
-        fixedColor: Colors.white,
+        backgroundColor: Colors.white,
+        fixedColor: Colors.pink[500],
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_long), title: Text('영수증'),),
+            icon: Icon(Icons.receipt_long), title: Text('기록',style: TextStyle(
+            fontWeight: FontWeight.bold
+          ),),),
           BottomNavigationBarItem(
-              icon: Icon(Icons.present_to_all), title: Text('지출결의')),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.addchart), title: Text('Report')
-          ),
+              icon: Icon(Icons.present_to_all), title: Text('올리기')),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.addchart), title: Text('Report')
+          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

@@ -22,8 +22,9 @@ class Picture {
   String filename;
   String filecontent;
   String filebyte;
+  String insert_date;
 
-  Picture(this.name, this.id, this.filename, this.filecontent, this.filebyte);
+  Picture(this.name, this.id, this.filename, this.filecontent, this.filebyte,this.insert_date);
 }
 
 class _HomeScreenState extends State<Bill> {
@@ -61,7 +62,7 @@ class _HomeScreenState extends State<Bill> {
       for (int i = 0; i < pictures.length; i++) {
         var picture = pictures[i];
         Picture pictureToAdd = Picture(picture["name"], picture["id"],
-            picture["filename"], picture["filecontent"], picture["filebyte"]);
+            picture["filename"], picture["filecontent"], picture["filebyte"],picture["insert_date"]);
         print(pictureToAdd.filename);
         setState(() {
           _data.add(pictureToAdd);
@@ -86,53 +87,44 @@ class _HomeScreenState extends State<Bill> {
     // TODO: implement build
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('지출 내역'),
-        actions: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {
-                  _fetchData();
-                },
-                icon: Icon(Icons.add),
-                tooltip: '더가져오기',
-                iconSize: 30,
-              ),
-            ],
-          )
-        ],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          actions: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    _fetchData();
+                  },
+                  icon: Icon(Icons.add),
+                  tooltip: '더가져오기',
+                  iconSize: 30,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
       body: ListView.builder(
           itemCount: _data.length,
           itemBuilder: (context, index) {
             Picture picture = _data[index];
-
-            // children = <Widget>[
-            //   SizedBox(
-            //     child: CircularProgressIndicator(),
-            //     width: 60,
-            //     height: 60,
-            //   ),
-            //   const Padding(
-            //     padding: EdgeInsets.only(top: 16),
-            //     child: Text('Awaiting result...'),
-            //   )
-            // ];
             return Card(
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white, // background
-                        onPrimary: Colors.red, // foreground
+                        // onPrimary: Colors.red, // foreground
                       ),
                       child: Image.memory(
                         base64Decode(picture.filebyte),
-                        width: 130,
-                        height: 130,
+                        width: 100,
+                        height: 100,
                       ),
                       onPressed: () {
                         showDialog(
@@ -165,26 +157,39 @@ class _HomeScreenState extends State<Bill> {
                         );
                       },
                     ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Container(child: Text(picture.id),margin: const EdgeInsets.all(8.0),),
-                          Container(child: Text(picture.filename),margin: const EdgeInsets.all(18.0),),
+                          Container(child: Text(picture.id+'번째'),margin: const EdgeInsets.all(8.0),),
+                          Container(child: Text(picture.insert_date.substring(0,10)),margin: const EdgeInsets.all(8.0),),
                         ]),
                     // Visibility(
-                    //                     //     visible: _isDialogVisible,
-                    //                     //     child: Container(
-                    //                     //       color: Colors.black26,
-                    //                     //       alignment: Alignment.center,
-                    //                     //       child: Padding(
-                    //                     //         padding: EdgeInsets.all(10.0),
-                    //                     //         child: CircularProgressIndicator(),
-                    //                     //       ),
-                    //                     //     )
-                    //                     // ),
+                    //         visible: _isDialogVisible,
+                    //         child: Container(
+                    //           color: Colors.black26,
+                    //           alignment: Alignment.center,
+                    //           child: Padding(
+                    //             padding: EdgeInsets.all(10.0),
+                    //             child: CircularProgressIndicator(),
+                    //           ),
+                    //         )
+                    // ),
                   ]),
             );
           }),
+        floatingActionButton: new Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              child:Icon(Icons.add),
+              onPressed: () {
+                _fetchData();
+              },
+
+          )
+
+          ],
+        )
     );
   }
 }

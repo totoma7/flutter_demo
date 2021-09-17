@@ -123,6 +123,7 @@ class _MyHomePageState extends State<Accnt> {
                   onPressed: () {
                     showDialog(
                       context: context,
+                      barrierDismissible: true,
                       builder: (BuildContext context) {
                         return AlertDialog(
                           contentPadding: EdgeInsets.all(0.0),

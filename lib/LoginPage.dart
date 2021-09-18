@@ -1,6 +1,9 @@
-import 'package:E_AC/tab_page.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
+import 'package:E_AC/tab_page.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 
 import 'main.dart';
 
@@ -10,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final formKey = new GlobalKey<FormState>();
   var _isChecked = false; //checkbox or swtich의 체크상태는 false로 지정. _ 는 private
   final _key = GlobalKey();
@@ -18,14 +20,38 @@ class _LoginPageState extends State<LoginPage> {
   late String _password;
   bool _isVisible = true;
   bool _flag = true;
+  var subscription = null;
+  String subscriptionString = 'ConnectivityResult.none';
 
   get bottomNavigationBar => null;
+
+  @override
+  initState() {
+    super.initState();
+    subscription = Connectivity().onConnectivityChanged.listen((
+        ConnectivityResult result) {
+      // Got a new connectivity status!
+    });
+    setState(() {
+    //   if(subscriptionString == ConnectivityResult.none.toString()){
+    // _flag = true;
+    // print('인터넷 안됨');
+    //   }else{
+    //     print('subscription :'+ConnectivityResult.wifi.toString());
+    //   }
+    });
+  }
+
+
   void validateAndSave() {
     final form = formKey.currentState;
     if (form!.validate()) {
       form.save();
       print('Form is valid Email: $_email, password: $_password');
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => TabPage()), (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => TabPage()),
+              (route) => false);
     } else {
       print('Form is invalid Email: $_email, password: $_password');
     }
@@ -36,26 +62,26 @@ class _LoginPageState extends State<LoginPage> {
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: new AppBar(
-        title: new Text('비용 증빙',
-          style: TextStyle(
-            color: Colors.white
-          ),),
+        title: new Text(
+          '비용 증빙',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.deepOrange[700],
       ),
       body: Column(
         children: [
           new Container(
             child: AnimatedOpacity(
-              duration:  const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               opacity: _isVisible ? 1.0 : 0.0,
-              child:
-                Visibility(child: Image(
-                    image: AssetImage('assets/images/4.gif'),
-                    height: 240,
-                    width: 400.0,
-                  ),
-                  visible: _isVisible,
+              child: Visibility(
+                child: Image(
+                  image: AssetImage('assets/images/4.gif'),
+                  height: 240,
+                  width: 400.0,
                 ),
+                visible: _isVisible,
+              ),
             ),
           ),
           new Container(
@@ -70,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     validator: (value) =>
                     value!.isEmpty ? 'Email can\'t be empty' : null,
                     onSaved: (value) => _email = value!,
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         _isVisible = false;
                       });
@@ -87,37 +113,44 @@ class _LoginPageState extends State<LoginPage> {
                         _isVisible = false;
                       });
                     },
-
                   ),
                   Row(
                     children: [
                       Checkbox(
                         value: _isChecked, //처음엔 false
-                        onChanged: (value) { //value가 false -> 클릭하면 true로 변경됨(두개 중 하나니까)
+                        onChanged: (value) {
+                          //value가 false -> 클릭하면 true로 변경됨(두개 중 하나니까)
                           setState(() {
                             _isChecked = value!; //true가 들어감.
                           });
                         },
                       ),
                       Text('자동 로그인 '),
-                      SizedBox(width: 20,),
+                      SizedBox(
+                        width: 20,
+                      ),
                       new ElevatedButton(
-                        child: new Text(_flag ? '로그인' : '로그인',
+                        child: new Text(
+                          _flag ? '로그인' : '인터넷 확인',
                           style: new TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-
+                            fontSize: 20.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
+
                         // onPressed: validateAndSave,
-                        onPressed:(){
-                          setState((){
-                            validateAndSave();
+                        onPressed: () async {
+
+
+                          setState(() {
+                            // 인터넷이 연결 될때만 로그인
+                            if(_flag) {
+                              validateAndSave();
+                            }
                           });
                         },
-                      style: ElevatedButton.styleFrom(
-                      primary:  Colors.red ),
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
                       ),
                     ],
                   ),
@@ -127,8 +160,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-        bottomNavigationBar:bottomNavigationBar,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
-}
 
+}

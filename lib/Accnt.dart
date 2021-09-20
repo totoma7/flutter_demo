@@ -126,15 +126,17 @@ class _MyHomePageState extends State<Accnt> {
                       barrierDismissible: true,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          contentPadding: EdgeInsets.all(0.0),
-                          titlePadding: EdgeInsets.all(0.0),
-                          buttonPadding: EdgeInsets.all(0.0),
+                            contentPadding: EdgeInsets.zero,
+                            titlePadding: EdgeInsets.zero,
+                            buttonPadding: EdgeInsets.zero,
+                            insetPadding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0)),
                           content: Image.file(
                             imageFile!,
-                            width: 400,
-                            height: 400,
+                            // width: 400,
+                            // height: 400,
+                            fit: BoxFit.fitHeight,
                           ),
                           actions: <Widget>[
                             new FlatButton(

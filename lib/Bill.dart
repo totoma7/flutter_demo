@@ -42,6 +42,7 @@ class _HomeScreenState extends State<Bill> {
 
   // String tokenString ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NzJmNzc3Mi0wN2Q4LTRhMGMtODQ5NC05NTMyYWRiZGIxMTIiLCJleHAiOjE2MzE3MDY0NjV9.A7-1CZX_M1bNUhgtM2S4rcBrqCXufwz1O9uLGkqkw1Uabueoqvn4aVzs26KKcgqOhKMHTu3s9k_GnHVJeZZa6g";
   Future<int> _fetchData() async {
+    _scaffoldKey.currentState!.showSnackBar(addSnackBar());
     print('test');
     List? pictures;
     final response = await http.get(
@@ -140,28 +141,40 @@ class _HomeScreenState extends State<Bill> {
                           showDialog(
                             context: context,
                             barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                contentPadding: EdgeInsets.zero,
-                                titlePadding: EdgeInsets.zero,
-                                buttonPadding: EdgeInsets.symmetric(horizontal: 10),
-                                insetPadding: EdgeInsets.symmetric(horizontal: 10),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                content: Image.memory(
-                                  base64Decode(picture.filebyte),
-                                  width: 400,
-                                  height: 400,
-                                ),
-                                actions: <Widget>[
+                            barrierColor: Colors.black87,
 
-                                  // new FlatButton(
-                                  //   child: new Text("Close"),
-                                  //   onPressed: () {
-                                  //     Navigator.pop(context);
-                                  //   },
-                                  // ),
-                                ],
+                            builder: (BuildContext context) {
+                              return Container(
+                                margin: EdgeInsets.all(5.0),
+                                padding: EdgeInsets.all(5.0),
+                                width: 100.0,
+                                child: AlertDialog(
+                                  // backgroundColor: Colors.pink,
+                                  //
+                                  // actionsPadding: EdgeInsets.symmetric(horizontal: 3.0),
+                                  contentPadding: EdgeInsets.zero,
+                                  titlePadding: EdgeInsets.zero,
+                                  buttonPadding: EdgeInsets.zero,
+                                  insetPadding: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  content: Image.memory(
+                                    base64Decode(picture.filebyte),
+                                    // width: 400,
+                                    // height: 400,
+                                    //
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                  actions: <Widget>[
+
+                                    // new FlatButton(
+                                    //   child: new Text("Close"),
+                                    //   onPressed: () {
+                                    //     Navigator.pop(context);
+                                    //   },
+                                    // ),
+                                  ],
+                                ),
                               );
                             },
                           );
@@ -204,11 +217,13 @@ class _HomeScreenState extends State<Bill> {
                   imgCount = await _fetchData() ;
                   print('imgCount '+imgCount.toString());
                  if(imgCount.toString() != "0"){
-                   _scaffoldKey.currentState!.showSnackBar(addSnackBar());
+
+                   Scaffold.of(context).removeCurrentSnackBar();
+                   // _scaffoldKey.currentState!.showSnackBar(addSnackBar());
                  }else if(imgCount.toString() == "0"){
                    _scaffoldKey.currentState!.showSnackBar(zeroSnackBar());
                  }
-                }, label: Text('더 가져 오기',style: TextStyle(
+                }, label: Text('기록 가져오기',style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),),
@@ -220,6 +235,7 @@ class _HomeScreenState extends State<Bill> {
   }
   SnackBar addSnackBar() {
     return SnackBar(
+
       backgroundColor: Colors.blue[500],
       duration: Duration(seconds: 3),
       shape: RoundedRectangleBorder(

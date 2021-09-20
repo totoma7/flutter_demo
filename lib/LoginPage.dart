@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:E_AC/tab_page.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'main.dart';
 
@@ -59,6 +60,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: new AppBar(

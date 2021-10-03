@@ -138,7 +138,6 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
         child: ListView.builder(
           itemCount: _data.length,
             controller: pageController,
-
             // onPageChanged: onPageChanged,
             itemBuilder: (context, index) {
               Picture picture = _data[index];
@@ -170,7 +169,6 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
                                 width: 10.0,
                                 child: AlertDialog(
                                   backgroundColor: Colors.deepOrange,
-
                                   actionsPadding: EdgeInsets.symmetric(horizontal: 3.0),
                                   contentPadding: EdgeInsets.zero,
                                   titlePadding: EdgeInsets.zero,
@@ -202,8 +200,8 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
                       Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Container(child: Text(picture.id+' '),margin: const EdgeInsets.all(8.0),),
-                            Container(child: Text(picture.insert_date.substring(2,19)),margin: const EdgeInsets.all(8.0),),
+                            Container(child: Text(picture.id+'번째  썸네일 '),margin: const EdgeInsets.all(8.0),),
+                            Container(child: Text(picture.insert_date.substring(2,16).replaceAll("-", "/")+" upload"),margin: const EdgeInsets.all(8.0),),
                           ]),
                       // Visibility(
                       //         visible: _isDialogVisible,

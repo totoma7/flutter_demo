@@ -136,8 +136,8 @@ class _MyHomePageState extends State<Accnt> {
                               borderRadius: BorderRadius.circular(8.0)),
                           content: Image.file(
                             imageFile!,
-                            // width: 400,
-                            // height: 400,
+                            width: 500,
+                            height: 500,
                             fit: BoxFit.fitHeight,
                           ),
                           actions: <Widget>[
@@ -167,6 +167,10 @@ class _MyHomePageState extends State<Accnt> {
           ),
           imageFile != null
               ? ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepOrange, // background
+                  onPrimary: Colors.white, // foreground
+                ),
                   onPressed: () async {
                     print('금액  ' + _password);
                     var res = await uploadImage(
@@ -187,6 +191,7 @@ class _MyHomePageState extends State<Accnt> {
                     style: new TextStyle(
                       fontSize: 20.0,
                       color: Colors.white,
+                      backgroundColor: Colors.deepOrange,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -303,8 +308,8 @@ class _MyHomePageState extends State<Accnt> {
                 CropAspectRatioPreset.ratio16x9
               ],
         androidUiSettings: AndroidUiSettings(
-            toolbarTitle: '자르기',
-            toolbarColor: Colors.indigo,
+            toolbarTitle: '편집',
+            toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),

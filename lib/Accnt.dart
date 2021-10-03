@@ -186,6 +186,7 @@ class _MyHomePageState extends State<Accnt> {
                     //   _isVisiblePick = true;
                     // });
                   },
+
                   child: Text(
                     '저장',
                     style: new TextStyle(
@@ -195,6 +196,7 @@ class _MyHomePageState extends State<Accnt> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                 )
               : Container(),
         ],

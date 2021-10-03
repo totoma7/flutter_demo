@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:E_AC/Accnt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,12 +28,14 @@ class Picture {
   Picture(this.name, this.id, this.filename, this.filecontent, this.filebyte,this.insert_date);
 }
 
-class _HomeScreenState extends State<Bill> {
+class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
   List _data = [];
   int page = 1;
   int limit = 20;
-
+  @override
+  // TODO: implement wantKeepAlive 페이지 이동시 상태 유지값
+  bool get wantKeepAlive => true;
   bool _isDialogVisible = false; //
   @override
   void initState() {
@@ -42,7 +45,11 @@ class _HomeScreenState extends State<Bill> {
 
   // String tokenString ="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NzJmNzc3Mi0wN2Q4LTRhMGMtODQ5NC05NTMyYWRiZGIxMTIiLCJleHAiOjE2MzE3MDY0NjV9.A7-1CZX_M1bNUhgtM2S4rcBrqCXufwz1O9uLGkqkw1Uabueoqvn4aVzs26KKcgqOhKMHTu3s9k_GnHVJeZZa6g";
   Future<int> _fetchData() async {
-    _scaffoldKey.currentState!.showSnackBar(addSnackBar());
+    try {
+      _scaffoldKey.currentState!.showSnackBar(addSnackBar());
+    }catch(e ){
+
+    }
     print('test');
     List? pictures;
     final response = await http.get(
@@ -89,9 +96,17 @@ class _HomeScreenState extends State<Bill> {
     pCount = pictures!.length;
     return pCount;
   }
+  final pageController = PageController();
+  void onPageChanged(int index) {
+    setState(() {
+      // _currentIndex = index;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     // TODO: implement build
     // final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
@@ -99,6 +114,8 @@ class _HomeScreenState extends State<Bill> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: AppBar(
+          title: Text('증빙 선택'),
+          backgroundColor: Colors.deepOrange[500],
           actions: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -117,9 +134,12 @@ class _HomeScreenState extends State<Bill> {
         ),
       ),
       body: Container(
-        color: Colors.pink[100],
+        color: Colors.deepOrange,
         child: ListView.builder(
-            itemCount: _data.length,
+          itemCount: _data.length,
+            controller: pageController,
+
+            // onPageChanged: onPageChanged,
             itemBuilder: (context, index) {
               Picture picture = _data[index];
               return Card(
@@ -129,7 +149,7 @@ class _HomeScreenState extends State<Bill> {
                     children: <Widget>[
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.white, // background
+                          primary: Colors.deepOrange[500], // background
                           // onPrimary: Colors.red, // foreground
                         ),
                         child: Image.memory(
@@ -145,13 +165,13 @@ class _HomeScreenState extends State<Bill> {
 
                             builder: (BuildContext context) {
                               return Container(
-                                margin: EdgeInsets.all(5.0),
-                                padding: EdgeInsets.all(5.0),
-                                width: 100.0,
+                                margin: EdgeInsets.all(1.0),
+                                padding: EdgeInsets.all(1.0),
+                                width: 10.0,
                                 child: AlertDialog(
-                                  // backgroundColor: Colors.pink,
-                                  //
-                                  // actionsPadding: EdgeInsets.symmetric(horizontal: 3.0),
+                                  backgroundColor: Colors.deepOrange,
+
+                                  actionsPadding: EdgeInsets.symmetric(horizontal: 3.0),
                                   contentPadding: EdgeInsets.zero,
                                   titlePadding: EdgeInsets.zero,
                                   buttonPadding: EdgeInsets.zero,
@@ -166,13 +186,12 @@ class _HomeScreenState extends State<Bill> {
                                     fit: BoxFit.fitWidth,
                                   ),
                                   actions: <Widget>[
-
-                                    // new FlatButton(
-                                    //   child: new Text("Close"),
-                                    //   onPressed: () {
-                                    //     Navigator.pop(context);
-                                    //   },
-                                    // ),
+                                    new FlatButton(
+                                      child: new Text("닫기"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
                                   ],
                                 ),
                               );
@@ -180,11 +199,11 @@ class _HomeScreenState extends State<Bill> {
                           );
                         },
                       ),
-                      Row(
+                      Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Container(child: Text(picture.id+'번째'),margin: const EdgeInsets.all(8.0),),
-                            Container(child: Text(picture.insert_date.substring(0,10)),margin: const EdgeInsets.all(8.0),),
+                            Container(child: Text(picture.id+' '),margin: const EdgeInsets.all(8.0),),
+                            Container(child: Text(picture.insert_date.substring(2,19)),margin: const EdgeInsets.all(8.0),),
                           ]),
                       // Visibility(
                       //         visible: _isDialogVisible,
@@ -205,38 +224,60 @@ class _HomeScreenState extends State<Bill> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-
               margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
               // padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
               child: ElevatedButton.icon(
-
-                icon:Icon(Icons.add_photo_alternate_outlined,size: 40,),
+                icon:Icon(Icons.add,size: 40),
                 onPressed: () async {
                   // var count = "0";
                   int imgCount = 0;
                   imgCount = await _fetchData() ;
                   print('imgCount '+imgCount.toString());
                  if(imgCount.toString() != "0"){
-
                    Scaffold.of(context).removeCurrentSnackBar();
                    // _scaffoldKey.currentState!.showSnackBar(addSnackBar());
                  }else if(imgCount.toString() == "0"){
                    _scaffoldKey.currentState!.showSnackBar(zeroSnackBar());
                  }
-                }, label: Text('기록 가져오기',style: TextStyle(
+                },
+                label: Text('',style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-              ),),
+              ),
+              ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepOrange, // background
+                  onPrimary: Colors.white, // foreground
+                ),
           ),
-            )
+            ),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+            //   // padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+            //   child: ElevatedButton.icon(
+            //     icon:Icon(Icons.add,size: 40,color: Colors.red,),
+            //     onPressed: () async {
+            //       var push = Navigator.push(context,
+            //           MaterialPageRoute(builder: (context) => Accnt()));
+            //     }, label: Text('',style: TextStyle(
+            //     fontSize: 20,
+            //     fontWeight: FontWeight.bold,
+            //   ),),
+            //     style: ElevatedButton.styleFrom(
+            //       primary: Colors.white, // background
+            //       onPrimary: Colors.red, // foreground
+            //     ),
+            //   ),
+            // ),
+
           ],
-        )
+        ),
     );
   }
   SnackBar addSnackBar() {
     return SnackBar(
 
-      backgroundColor: Colors.blue[500],
+      backgroundColor: Colors.deepOrange[900],
       duration: Duration(seconds: 3),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20))
@@ -247,12 +288,13 @@ class _HomeScreenState extends State<Bill> {
           Expanded(child: Container(height: 0)),
           CircularProgressIndicator(),
         ],
+
       ),
     );
   }
   SnackBar zeroSnackBar() {
     return SnackBar(
-      backgroundColor: Colors.pink[500],
+      backgroundColor: Colors.deepOrange[200],
       duration: Duration(seconds: 3),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20))
@@ -266,4 +308,6 @@ class _HomeScreenState extends State<Bill> {
       ),
     );
   }
+
+
 }

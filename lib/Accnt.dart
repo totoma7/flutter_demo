@@ -94,12 +94,14 @@ class _MyHomePageState extends State<Accnt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        title: Text('영수증 추가'),
+        title: Text('증빙 선택'),
+        backgroundColor: Colors.deepOrange[500],
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
-            color: Colors.black,
+            color: Colors.white,
             onPressed: () {
               // 로그아웃
               Navigator.pushAndRemoveUntil(

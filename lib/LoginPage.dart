@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:E_AC/tab_page.dart';
+import 'package:animator/animator.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,12 +35,12 @@ class _LoginPageState extends State<LoginPage> {
       // Got a new connectivity status!
     });
     setState(() {
-    //   if(subscriptionString == ConnectivityResult.none.toString()){
-    // _flag = true;
-    // print('인터넷 안됨');
-    //   }else{
-    //     print('subscription :'+ConnectivityResult.wifi.toString());
-    //   }
+      //   if(subscriptionString == ConnectivityResult.none.toString()){
+      // _flag = true;
+      // print('인터넷 안됨');
+      //   }else{
+      //     print('subscription :'+ConnectivityResult.wifi.toString());
+      //   }
     });
   }
 
@@ -63,107 +64,151 @@ class _LoginPageState extends State<LoginPage> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return new Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: new AppBar(
-        title: new Text(
-          '비용 증빙',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.deepOrange[700],
-      ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          new Container(
-            child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 500),
-              opacity: _isVisible ? 1.0 : 0.0,
-              child: Visibility(
-                child: Image(
-                  image: AssetImage('assets/images/4.gif'),
-                  height: 240,
-                  width: 400.0,
+          Expanded(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage("https://www.albam.net/wp-content/uploads/2020/02/04.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  foregroundDecoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                  ),
                 ),
-                visible: _isVisible,
-              ),
-            ),
-          ),
-          new Container(
-            padding: EdgeInsets.all(5),
-            child: new Form(
-              key: formKey,
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new TextFormField(
-                    decoration: new InputDecoration(labelText: '사용자 ID'),
-                    validator: (value) =>
-                    value!.isEmpty ? 'Email can\'t be empty' : null,
-                    onSaved: (value) => _email = value!,
-                    onTap: () {
-                      setState(() {
-                        _isVisible = false;
-                      });
-                    },
-                  ),
-                  new TextFormField(
-                    obscureText: true,
-                    decoration: new InputDecoration(labelText: '비밀 번호'),
-                    validator: (value) =>
-                    value!.isEmpty ? 'Password can\'t be empty' : null,
-                    onSaved: (value) => _password = value!,
-                    onTap: () {
-                      setState(() {
-                        _isVisible = false;
-                      });
-                    },
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _isChecked, //처음엔 false
-                        onChanged: (value) {
-                          //value가 false -> 클릭하면 true로 변경됨(두개 중 하나니까)
-                          setState(() {
-                            _isChecked = value!; //true가 들어감.
-                          });
-                        },
+                if (MediaQuery.of(context).viewInsets == EdgeInsets.zero)
+                  Padding(
+                    padding: const EdgeInsets.only(top: kToolbarHeight),
+                    child: Text(
+                      "Ecbank Mobile",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
                       ),
-                      Text('자동 로그인 '),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      new ElevatedButton(
-                        child: new Text(
-                          _flag ? '로그인' : '인터넷 확인',
-                          style: new TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                Animator<double>(
+                  triggerOnInit: true,
+                  curve: Curves.easeIn,
+                  tween: Tween<double>(begin: -1, end: 0),
+                  builder: (context, state, child) {
+                    return FractionalTranslation(
+                      translation: Offset(state.value,0),
+                      child: child,
+                    );
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ListView(
+                      physics:
+                      MediaQuery.of(context).viewInsets == EdgeInsets.zero
+                          ? NeverScrollableScrollPhysics()
+                          : null,
+                      padding: const EdgeInsets.all(32.0),
+                      shrinkWrap: true,
+                      children: [
+                        const SizedBox(height: kToolbarHeight),
+                        Text(
+                          "Mobile           e -Accounting",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4!
+                              .copyWith(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 10.0),
+                        Text(
+                          "전자 증빙",
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 16.0,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20.0),
+                        TextField(
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16.0, horizontal: 32.0),
+                            suffixIcon: Icon(
+                              Icons.person,
+                              color: Colors.blueGrey,
+                            ),
+                            hintText: "Username",
+                            hintStyle: TextStyle(color: Colors.blueGrey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blueGrey),
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
                           ),
                         ),
-
-                        // onPressed: validateAndSave,
-                        onPressed: () async {
-
-
-                          setState(() {
-                            // 인터넷이 연결 될때만 로그인
-                            if(_flag) {
-                              validateAndSave();
-                            }
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
-                      ),
-                    ],
+                        const SizedBox(height: 10.0),
+                        TextField(
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16.0, horizontal: 32.0),
+                            suffixIcon: Icon(
+                              Icons.lock,
+                              color: Colors.blueGrey,
+                            ),
+                            hintText: "Password",
+                            hintStyle: TextStyle(color: Colors.blueGrey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blueGrey),
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        // FlatButton(
+                        //   textColor: Colors.white,
+                        //   child: Text("Create new account"),
+                        //   onPressed: () {},
+                        // ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+          if (MediaQuery.of(context).viewInsets == EdgeInsets.zero)
+            RaisedButton(
+              padding: const EdgeInsets.all(32.0),
+              elevation: 0,
+              textColor: Colors.white,
+              color: Colors.deepOrange,
+              child: Text("Continue".toUpperCase()),
+              onPressed: () {
+                setState(() {
+                  // 인터넷이 연결 될때만 로그인
+                  // if(_flag) {
+                  //   validateAndSave();
+                  // }
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) => TabPage()),
+                          (route) => false);
+                });
+
+              },
+            )
         ],
       ),
-      bottomNavigationBar: bottomNavigationBar,
     );
   }
 

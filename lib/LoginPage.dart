@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                 Animator<double>(
                   triggerOnInit: true,
                   curve: Curves.easeIn,
-                  tween: Tween<double>(begin: -1, end: 0),
+                  tween: Tween<double>(begin: -10, end: 0),
                   builder: (context, state, child) {
                     return FractionalTranslation(
                       translation: Offset(state.value,0),

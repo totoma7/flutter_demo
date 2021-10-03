@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:E_AC/Accnt.dart';
+import 'package:E_AC/util/wave_clipper_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -133,8 +134,19 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
           ],
         ),
       ),
-      body: Container(
-        color: Colors.deepOrange,
+      body:   Stack(
+        children: <Widget>[
+          ClipPath(
+            clipper: WaveClipperTwo(),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.deepPurple
+              ),
+              height: 200,
+            ),
+          ),
+          Container(
+        color: Colors.white,
         child: ListView.builder(
           itemCount: _data.length,
             controller: pageController,
@@ -146,15 +158,18 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.deepOrange[500], // background
-                          // onPrimary: Colors.red, // foreground
+                          primary: Colors.white, // background
+                           onPrimary: Colors.red, // foreground
+                          padding: EdgeInsets.all(3), // Set padding
                         ),
                         child: Image.memory(
                           base64Decode(picture.filebyte),
                           width: 100,
                           height: 100,
+                          fit: BoxFit.cover,
                         ),
                         onPressed: () {
                           showDialog(
@@ -175,13 +190,13 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
                                   buttonPadding: EdgeInsets.zero,
                                   insetPadding: EdgeInsets.zero,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0)),
+                                      borderRadius: BorderRadius.circular(1.0)),
                                   content: Image.memory(
                                     base64Decode(picture.filebyte),
                                     // width: 400,
                                     // height: 400,
                                     //
-                                    fit: BoxFit.fitWidth,
+                                    fit: BoxFit.cover,
                                   ),
                                   actions: <Widget>[
                                     new FlatButton(
@@ -218,6 +233,7 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
               );
             }),
       ),
+    ]),
         floatingActionButton: new Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -238,7 +254,7 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
                    _scaffoldKey.currentState!.showSnackBar(zeroSnackBar());
                  }
                 },
-                label: Text('',style: TextStyle(
+                label: Text(' 가져오기',style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

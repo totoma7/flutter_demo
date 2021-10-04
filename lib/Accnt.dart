@@ -157,7 +157,14 @@ class _MyHomePageState extends State<Accnt> {
                     width: 250,
                     height: 250,
                   ))
-              : Container(),
+              : Container(
+            child: Center(
+              child: Image.asset('assets/images/pngwing.com.png',fit: BoxFit.cover)
+    // image: AssetImage('assets/images/4.gif'),
+    // Image.asset("pngwing.com.png", fit: BoxFit.cover),
+
+            ),
+          ),
           Container(
             child: Center(
               child: SizedBox(

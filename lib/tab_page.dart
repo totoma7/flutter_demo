@@ -31,7 +31,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        fixedColor: Colors.deepOrange,
+        fixedColor: Colors.black87,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long), title: Text('기록',style: TextStyle(

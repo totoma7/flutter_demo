@@ -12,8 +12,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'login demo',
+      debugShowCheckedModeBanner: false,
       theme: new ThemeData(
         primarySwatch: Colors.blue,
+        scrollbarTheme: ScrollbarThemeData().copyWith(
+      thumbColor: MaterialStateProperty.all(Colors.deepOrange[500]),
+      ),
       ),
       home: new LoginPage(),
 

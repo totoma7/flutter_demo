@@ -140,13 +140,16 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
             clipper: WaveClipperTwo(),
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.deepPurple
+                  color: Colors.deepOrange.withOpacity(0.7)
               ),
-              height: 200,
+              height: 400,
             ),
           ),
-          Container(
-        color: Colors.white,
+          Scrollbar(
+            thickness: 9,
+            isAlwaysShown: true,
+            radius: Radius.circular(3), // give t
+        // color: Colors.white,
         child: ListView.builder(
           itemCount: _data.length,
             controller: pageController,
@@ -158,12 +161,11 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.white, // background
                            onPrimary: Colors.red, // foreground
-                          padding: EdgeInsets.all(3), // Set padding
+                          padding: EdgeInsets.all(1), // Set padding
                         ),
                         child: Image.memory(
                           base64Decode(picture.filebyte),

@@ -204,6 +204,7 @@ class _MyHomePageState extends State<Accnt> {
                     //   _isVisibleCamera = true;
                     //   _isVisiblePick = true;
                     // });
+                  
                   },
 
                   child: Text(
@@ -213,7 +214,9 @@ class _MyHomePageState extends State<Accnt> {
                       color: Colors.white,
                       backgroundColor: Colors.deepOrange,
                       fontWeight: FontWeight.bold,
+
                     ),
+
                   ),
 
                 ) else Container(),

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 
 // import 'package:flutter_layout/MyCustomForm.dart';
 import 'package:image_picker/image_picker.dart';
@@ -79,7 +81,7 @@ class _MyHomePageState extends State<Accnt> {
     });
   }
 
-  Future<int?> uploadImage(filepath, url, password) async {
+  Future<Response?> uploadImage(filepath, url, password) async {
     print('filepath ' + filepath);
     print('url ' + url);
     print('password ' + password);
@@ -87,8 +89,14 @@ class _MyHomePageState extends State<Accnt> {
     var request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields['userid'] = 'password';
     request.files.add(await http.MultipartFile.fromPath('image', filepath));
+
     var res = await request.send();
-    return res.statusCode;
+    var response = await http.Response.fromStream(res);
+    print('response body '+response.body);
+
+    print('res.toString()' + res.toString());
+    // print('re '+res.);
+    return response;
   }
 
   @override
@@ -172,19 +180,23 @@ class _MyHomePageState extends State<Accnt> {
               ),
             ),
           ),
-          imageFile != null
-              ? ElevatedButton(
+          if (imageFile != null) ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Colors.deepOrange, // background
                   onPrimary: Colors.white, // foreground
                 ),
                   onPressed: () async {
                     print('금액  ' + _password);
-                    var res = await uploadImage(
+                    Response? res = await uploadImage(
                         imageFile!.path, uploadUrl, 'myController.text');
-                    print('res:' + res.toString());
-                    if (res == 201) {
-                      showAlertDialog(context);
+                    // print('res:' + res!.body);
+                    var beforebill = res!.body;
+                    var bill = json.decode(beforebill);
+                    // print(bill)
+                    bill = {bill['message']};
+                    print(bill);
+                    if (res.statusCode == 201) {
+                      showAlertDialog(context,bill.toString().replaceAll("}", "").replaceAll("{", ""));
                       //_clearImage();
                     }
                     // setState(() {
@@ -204,8 +216,7 @@ class _MyHomePageState extends State<Accnt> {
                     ),
                   ),
 
-                )
-              : Container(),
+                ) else Container(),
         ],
       ),
       floatingActionButton: Row(
@@ -347,13 +358,13 @@ class _MyHomePageState extends State<Accnt> {
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-  void showAlertDialog(BuildContext context) async {
+  void showAlertDialog(BuildContext context,var bill) async {
     await showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Text("저장 되었습니다."),
+          content: Text('금액'+ bill +"원 저장 되었습니다."),
           actions: <Widget>[
             FlatButton(
               child: Text('Close'),

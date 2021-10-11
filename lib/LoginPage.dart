@@ -152,6 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(40.0),
                             ),
                           ),
+
                         ),
                         const SizedBox(height: 10.0),
                         TextField(
@@ -162,6 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                               Icons.lock,
                               color: Colors.blueGrey,
                             ),
+
                             hintText: "Password",
                             hintStyle: TextStyle(color: Colors.blueGrey),
                             border: OutlineInputBorder(
@@ -172,6 +174,15 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(40.0),
                             ),
                           ),
+                          obscureText: true,
+                            onChanged: (text) {
+                            setState(() {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (BuildContext context) => TabPage()),
+                                      (route) => false);
+                            });
+                            },
                         ),
                         const SizedBox(height: 20.0),
                         // FlatButton(

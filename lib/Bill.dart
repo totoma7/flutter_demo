@@ -22,11 +22,12 @@ class Picture {
   String name;
   String id;
   String filename;
+  int account;
   String filecontent;
   String filebyte;
   String insert_date;
 
-  Picture(this.name, this.id, this.filename, this.filecontent, this.filebyte,this.insert_date);
+  Picture(this.name, this.id, this.filename, this.filecontent, this.filebyte,this.insert_date,this.account);
 }
 
 class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
@@ -73,7 +74,7 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
       for (int i = 0; i < pictures!.length; i++) {
         var picture = pictures[i];
         Picture pictureToAdd = Picture(picture["name"], picture["id"],
-            picture["filename"], picture["filecontent"], picture["filebyte"],picture["insert_date"]);
+            picture["filename"], picture["filecontent"], picture["filebyte"],picture["insert_date"],picture["account"]);
         print(pictureToAdd.filename);
         setState(() {
           _data.add(pictureToAdd);
@@ -218,6 +219,7 @@ class _HomeScreenState extends State<Bill> with AutomaticKeepAliveClientMixin {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(child: Text(picture.id+'번째  썸네일 '),margin: const EdgeInsets.all(8.0),),
+                            Container(child: Text('금액  '+picture.account.toString() +"원"),margin: const EdgeInsets.all(8.0),),
                             Container(child: Text(picture.insert_date.substring(2,16).replaceAll("-", "/")+" upload"),margin: const EdgeInsets.all(8.0),),
                           ]),
                       // Visibility(

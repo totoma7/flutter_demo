@@ -49,6 +49,7 @@ class _MyHomePageState extends State<Accnt> {
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
   final String uploadUrl = 'http://222.108.225.7:18080/test/upload';
+  final _formKey = GlobalKey<FormState>();
 
   // final String uploadUrl = 'http://localhost/test/upload';
   final myController = TextEditingController();
@@ -102,7 +103,7 @@ class _MyHomePageState extends State<Accnt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('증빙 선택'),
         backgroundColor: Colors.deepOrange[500],
@@ -121,106 +122,243 @@ class _MyHomePageState extends State<Accnt> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          imageFile != null
-              ? ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white, // background
-                onPrimary: Colors.white, // foreground
-              ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                            contentPadding: EdgeInsets.zero,
-                            titlePadding: EdgeInsets.zero,
-                            buttonPadding: EdgeInsets.zero,
-                            insetPadding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0)),
-                          content: Image.file(
-                            imageFile!,
-                            width: 500,
-                            height: 500,
-                            fit: BoxFit.fitHeight,
-                          ),
-                          actions: <Widget>[
-                            new FlatButton(
-                              child: new Text("Close"),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
+      body: SingleChildScrollView (
+        child: Container(
+          margin: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              imageFile != null
+                  ? ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[200], // background
+                    onPrimary: Colors.red, // foreground
+                  ),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                contentPadding: EdgeInsets.zero,
+                                titlePadding: EdgeInsets.zero,
+                                buttonPadding: EdgeInsets.zero,
+                                insetPadding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0)),
+                              content: Image.file(
+                                imageFile!,
+                                width: 500,
+                                height: 500,
+                                fit: BoxFit.fitHeight,
+                              ),
+                              actions: <Widget>[
+                                new FlatButton(
+                                  child: new Text("Close"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  child: Image.file(
-                    imageFile!,
-                    width: 250,
-                    height: 250,
-                  ))
-              : Container(
-            child: Center(
-              child: Image.asset('assets/images/pngwing.com.png',fit: BoxFit.cover)
-    // image: AssetImage('assets/images/4.gif'),
-    // Image.asset("pngwing.com.png", fit: BoxFit.cover),
-
-            ),
-          ),
-          Container(
-            child: Center(
-              child: SizedBox(
-                height: 2,
-              ),
-            ),
-          ),
-          if (imageFile != null) ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepOrange, // background
-                  onPrimary: Colors.white, // foreground
-                ),
-                  onPressed: () async {
-                    print('금액  ' + _password);
-                    Response? res = await uploadImage(
-                        imageFile!.path, uploadUrl, 'myController.text');
-                    // print('res:' + res!.body);
-                    var beforebill = res!.body;
-                    var bill = json.decode(beforebill);
-                    // print(bill)
-                    bill = {bill['message']};
-                    print(bill);
-                    if (res.statusCode == 201) {
-                      showAlertDialog(context,bill.toString().replaceAll("}", "").replaceAll("{", ""));
-                      //_clearImage();
-                    }
-                    // setState(() {
-                    //   state = AppState.free;
-                    //   _isVisibleCamera = true;
-                    //   _isVisiblePick = true;
-                    // });
-
-                  },
-
-                  child: Text(
-                    '저장',
-                    style: new TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                      backgroundColor: Colors.deepOrange,
-                      fontWeight: FontWeight.bold,
-
+                      child: Image.file(
+                        imageFile!,
+                        width: 200,
+                        height: 300,
+                      ))
+                  : Container(
+                child: Center(
+                  child: Image.asset('assets/images/pngwing.com.png',fit: BoxFit.cover)
                     ),
-
                   ),
+              Container(
+                child: Center(
+                  child: SizedBox(
+                    height: 2,
+                  ),
+                ),
+              ),
+              if (imageFile != null) Container(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.deepOrange, // background
+                                onPrimary: Colors.white, // foreground
+                              ),
+                                onPressed: () async {
+                                },
+                                child:
+                                    Text(
+                                      '접대비',
+                                      style: new TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.white,
+                                        backgroundColor: Colors.deepOrange,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                              ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrange, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () async {
+                          },
+                          child:
+                          Text(
+                            '교통비',
+                            style: new TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              backgroundColor: Colors.deepOrange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrange, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () async {
+                          },
+                          child:
+                          Text(
+                            '기타경비',
+                            style: new TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              backgroundColor: Colors.deepOrange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrange, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () async {
+                          },
+                          child:
+                          Text(
+                            '대외 활동비',
+                            style: new TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              backgroundColor: Colors.deepOrange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrange, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () async {
+                          
+                          },
+                          child:
+                          Text(
+                            '식대',
+                            style: new TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              backgroundColor: Colors.deepOrange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),   ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrange, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () async {
+                          },
+                          child:
+                          Text(
+                            '교통비',
+                            style: new TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              backgroundColor: Colors.deepOrange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
+                      child:
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(),
+                              labelText: '금액 입력',
+                            ),
+                            onTap: (){
 
-                ) else Container(),
-        ],
+                            },
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.blue, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () async {
+                            print('금액  ' + _password);
+                            Response? res = await uploadImage(
+                                imageFile!.path, uploadUrl, 'myController.text');
+                            // print('res:' + res!.body);
+                            var beforebill = res!.body;
+                            var bill = json.decode(beforebill);
+                            // print(bill)
+                            bill = {bill['message']};
+                            print(bill);
+                            if (res.statusCode == 201) {
+                              showAlertDialog(context,bill.toString().replaceAll("}", "").replaceAll("{", ""));
+                            }
+                          },
+                          child:
+                          Text(
+                            '저장',
+                            style: new TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                              backgroundColor: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ) else Container(),
+
+
+            ],
+          ),
+        ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -255,6 +393,7 @@ class _MyHomePageState extends State<Accnt> {
               },
               child: _buildcameraButtonIcon(),
             ),
+
           )
         ],
       ),

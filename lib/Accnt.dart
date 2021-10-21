@@ -204,7 +204,7 @@ class _MyHomePageState extends State<Accnt> {
                     //   _isVisibleCamera = true;
                     //   _isVisiblePick = true;
                     // });
-                  
+
                   },
 
                   child: Text(
